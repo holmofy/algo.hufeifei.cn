@@ -1,82 +1,80 @@
 ﻿<!DOCTYPE html>
 <html>
-	
+
 
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
-		<title>
-			Huffman Coding Visualization
-		</title>
+	<title>
+		Huffman编码 | 算法数据结构可视化
+	</title>
+	<meta property="keywords" content="Huffman,编码,算法,动画,可视化">
+	<meta property="description" content="网站翻译自旧金山大学David Galles教授的数据结构课程">
 
-		<!-- css sheet for how the page is laid out -->
+	<link rel="stylesheet" href="visualizationPageStyle.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-		<link rel="stylesheet" href="visualizationPageStyle.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<!-- jqueury stuff.  Only used for the animation speed slider. -->
+	<link rel="stylesheet" href="ThirdParty/jquery-ui-1.8.11.custom.css">
 
+	<script src="ThirdParty/jquery-1.5.2.min.js"></script>
+	<script src="ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
 
-		<!-- jqueury stuff.  Only used for the animation speed slider. -->
-		<link rel="stylesheet" href="ThirdParty/jquery-ui-1.8.11.custom.css">
-
-		<script src="ThirdParty/jquery-1.5.2.min.js"></script>
-		<script src="ThirdParty/jquery-ui-1.8.11.custom.min.js"></script>
-
-		<!-- Javascript for the actual visualization code -->
-		<script type = "text/javascript" src = "AnimationLibrary/CustomEvents.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/UndoFunctions.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimatedObject.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimatedLabel.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimatedCircle.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimatedRectangle.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimatedLinkedList.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/HighlightCircle.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/Line.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/ObjectManager.js"> </script>
-		<script type = "text/javascript" src = "AnimationLibrary/AnimationMain.js"> </script>
-		<script type = "text/javascript" src = "AlgorithmLibrary/Algorithm.js"> </script>
-		<script type = "text/javascript" src = "AlgorithmLibrary/Huffman.js"> </script>
+	<!-- Javascript for the actual visualization code -->
+	<script type="text/javascript" src="AnimationLibrary/CustomEvents.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/UndoFunctions.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimatedObject.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimatedLabel.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimatedCircle.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimatedRectangle.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimatedLinkedList.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/HighlightCircle.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/Line.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/ObjectManager.js"> </script>
+	<script type="text/javascript" src="AnimationLibrary/AnimationMain.js"> </script>
+	<script type="text/javascript" src="AlgorithmLibrary/Algorithm.js"> </script>
+	<script type="text/javascript" src="AlgorithmLibrary/Huffman.js"> </script>
 
 
-	 </head>
+</head>
 
-	<body onload="init();" class="VisualizationMainPage">
+<body onload="init();" class="VisualizationMainPage">
 
-		<div id = "container">
+	<div id="container">
 
-			<header id="header" class="navbar navbar-expand-md navbar-dark bd-navbar">
-        <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
+		<header id="header" class="navbar navbar-expand-md navbar-dark bd-navbar">
+			<nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
 				<h1>Huffman Coding</h1>
-</nav>
-			</header>
+			</nav>
+		</header>
 
-			<div  id = "mainContent">
+		<div id="mainContent">
 
-				<div id = "algoControlSection">
-					<!-- Table for buttons to control specific animation (insert/find/etc) -->
-					<!-- (filled in by javascript code specific to the animtion) -->
-					<table id="AlgorithmSpecificControls"> </table>
-				</div>
+			<div id="algoControlSection">
+				<!-- Table for buttons to control specific animation (insert/find/etc) -->
+				<!-- (filled in by javascript code specific to the animtion) -->
+				<table id="AlgorithmSpecificControls"> </table>
+			</div>
 
-					<!-- Drawing canvas where all animation is done.  Note:  can be resized in code -->
+			<!-- Drawing canvas where all animation is done.  Note:  can be resized in code -->
 
-				<canvas id="canvas" width="1000" height="500"></canvas>
+			<canvas id="canvas" width="1000" height="500"></canvas>
 
-				<div id = "generalAnimationControlSection">
-					<!-- Table for buttons to control general animation (play/pause/undo/etc) ->
-					<!-- (filled in by javascript code, specifically AnimationMain.js)  -->
+			<div id="generalAnimationControlSection">
+				<div class="d-none">Huffman编码 | 算法数据结构可视化 动画,可视化</div>
 
-					<table id="GeneralAnimationControls">  </table>
-				</div>
+				<table id="GeneralAnimationControls"> </table>
+			</div>
 
-			</div> <!-- mainContent -->
+		</div> <!-- mainContent -->
 
-			<footer id="footer" class="bd-footer bg-light">
-				<p><a href="index.html">回到主页</a></p>
-			</footer>
+		<footer id="footer" class="bd-footer bg-light">
+			<p><a href="index.html">回到主页</a></p>
+		</footer>
 
-		</div><!-- container -->
-	</body>
+	</div>
+	<div class="d-none">Huffman编码 | 算法数据结构可视化 动画,可视化</div>
+</body>
 
-<!-- Mirrored from cmps-people.ok.ubc.ca/ylucet/DS/Huffman.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 26 Oct 2021 14:40:42 GMT -->
 </html>
