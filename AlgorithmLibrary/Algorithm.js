@@ -97,9 +97,9 @@ function addControlToAlgorithmBar(type, name) {
 	element.setAttribute("value", name);
 	element.setAttribute("name", name);
 	if (type.toLowerCase() == "button") {
-		element.setAttribute("class", "btn btn-primary btn-sm");
+		element.setAttribute("class", "btn btn-outline-primary btn-sm");
 	} else if (type.toLowerCase() == "text") {
-		element.setAttribute("class", "form-control");
+		element.setAttribute("class", "form-control form-control-sm");
 	} else if (type.toLowerCase() == "radio") {
 		element.setAttribute("class", "form-check-input");
 	}
