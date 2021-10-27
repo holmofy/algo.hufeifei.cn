@@ -100,6 +100,7 @@ div.container {
 div.content {
    border-left: 1px solid #006633;
    padding: 1em;
+   line-height: 1.3;
 }
 
 .about {
