@@ -17,13 +17,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Install ssh-key
-        uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.ID_RSA }}
-          ssh-host: algo.hufeifei.cn
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Deploy by git
         run: |
           git fetch --unshallow
-          git remote add algo git@algo.hufeifei.cn:repo/algo.hufeifei.cn.git
+          git remote add algo git@www.hufeifei.cn:repo/algo.hufeifei.cn.git
           git push algo master -f
