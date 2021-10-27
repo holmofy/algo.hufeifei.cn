@@ -26,5 +26,5 @@ jobs:
       - name: Deploy by git
         run: |
           git fetch --unshallow
-          git remote add algo git@www.hufeifei.cn:repo/algo.hufeifei.cn.git
+          git remote add algo git@algo.hufeifei.cn:repo/algo.hufeifei.cn.git
           git push algo master -f
