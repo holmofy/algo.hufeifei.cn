@@ -6,7 +6,7 @@
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 	<title>
-		分形树(Splay Tree) | 算法数据结构可视化
+		伸展树(Splay Tree) | 算法数据结构可视化
 	</title>
 	<meta property="keywords" content="分形树,Splay Tree,算法,动画,可视化">
 	<meta property="description" content="网站翻译自旧金山大学David Galles教授的数据结构课程">
@@ -85,7 +85,11 @@
 		</footer>
 
 	</div>
-	<div class="d-none">分形树(Splay Tree) | 算法数据结构可视化 动画,可视化</div>
+	<div class="d-none">
+		伸展树（Splay Tree），也叫分裂树，是一种二叉排序树，它能在O(log n)内完成插入、查找和删除操作。它由丹尼尔·斯立特Daniel Sleator 和 罗伯特·恩卓·塔扬Robert Endre Tarjan 在1985年发明的。 [1] 
+在伸展树上的一般操作都基于伸展操作：假设想要对一个二叉查找树执行一系列的查找操作，为了使整个查找时间更小，被查频率高的那些条目就应当经常处于靠近树根的位置。于是想到设计一个简单方法， 在每次查找之后对树进行重构，把被查找的条目搬移到离树根近一些的地方。伸展树应运而生。伸展树是一种自调整形式的二叉查找树，它会沿着从某个节点到树根之间的路径，通过一系列的旋转把这个节点搬移到树根去。
+它的优势在于不需要记录用于平衡树的冗余信息。
+	</div>
 </body>
 
 </html>

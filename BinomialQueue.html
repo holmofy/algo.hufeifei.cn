@@ -39,15 +39,16 @@
 	<script type="text/javascript" src="AlgorithmLibrary/BinomialQueue.js"> </script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H58NSPXYPF"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-H58NSPXYPF');
-  </script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-H58NSPXYPF"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', 'G-H58NSPXYPF');
+	</script>
 </head>
 
 <body onload="init();" class="VisualizationMainPage">
@@ -73,9 +74,6 @@
 			<canvas id="canvas" width="1000" height="500"></canvas>
 
 			<div id="generalAnimationControlSection">
-				<!-- Table for buttons to control general animation (play/pause/undo/etc) ->
-				 <!-- (filled in by javascript code, specifically AnimationMain.js)  -->
-
 				<table id="GeneralAnimationControls"> </table>
 			</div>
 
@@ -85,7 +83,21 @@
 			<p><a href="index.html">回到主页</a></p>
 		</footer>
 
-	</div><!-- container -->
+	</div>
+
+	<div class="d-none">
+		<h2>这是一个算法可视化动画网站</h2>
+
+		众所周知，只需要一个数组，我们就能实现二叉堆。二叉堆的Insert，DeleteMin均能以 [公式] 执行，BuildHeap和Merge能够以 [公式] 执行。
+
+		为了降低Merge复杂度，人们不得不使用指针，这就诞生了左式堆。左式堆本质上是一个二叉树，斜堆是左式堆的一个变体，各方面性能和左式堆相似。
+
+		左式堆(leftist heap)和斜堆(skew heap)实现了 [公式] 的Merge，并且基于Merge实现了Insert和DeleteMin操作。
+
+		这么一来虽然Merge的性能被搞上去了，但是Insert的性能却下来了。毕竟，从平均的角度看，左式堆和斜堆Insert的平均复杂度是 [公式] ，而二叉堆Insert的平均复杂度是 [公式] 。
+
+		因此有人发明了二项队列(binomial queue)，该数据结构Insert，DeleteMin和Merge的最坏复杂度为 [公式] ，而且Insert的平均复杂度是 [公式] 。
+	</div>
 </body>
 
 </html>
