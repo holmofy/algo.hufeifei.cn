@@ -1,0 +1,134 @@
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Visualizing String Matching Algorithms</title>
+
+    <title>
+        KMP算法,Boyer-Moore算法 | 算法数据结构可视化
+    </title>
+
+    <meta property="keywords" content="KMP,算法,Boyer-Moore,动画,可视化">
+    <meta property="description" content="KMP算法,Boyer-Moore算法 | 算法数据结构可视化">
+
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="StringMatch/strmatch.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H58NSPXYPF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-H58NSPXYPF');
+    </script>
+    <style>
+        .monospace {
+            font-family: courier new;
+            font-size: 30px;
+            padding-bottom: 20px;
+            min-width: 30px;
+        }
+
+        .cell {
+            text-align: center;
+        }
+
+        .options {
+            padding-top: 20px;
+        }
+
+        #needle {
+            position: absolute;
+        }
+
+        .table-cell {
+            text-align: center;
+            width: 40px;
+        }
+
+        .char-table {
+            table-layout: fixed;
+        }
+
+        #links {
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header id="header" class="navbar navbar-expand-md navbar-dark bd-navbar">
+        <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
+            <h1>字符串匹配算法</h1>
+        </nav>
+    </header>
+    <div id="main" class="container">
+        <form class="form-inline">
+            <div class="options">
+                <div class="algorithms form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="algorithm" class="algbutton input" value="naive" checked="true">
+                            </radio>
+                            暴力模式
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="algorithm" class="algbutton" value="kmp"></radio>
+                            KMP
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="algorithm" class="algbutton" value="boyer_moore"></radio>
+                            Boyer-Moore
+                        </label>
+                    </div>
+                    <br><label>算法</label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="text" value="ABCDABD" maxlength="30" id="needle-input"
+                            class="form-control"></input> 匹配串
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="text" value="ABC ABCDAB ABCDABCDABDE" maxlength="30" id="haystack-input"
+                            class="form-control"></input> 原始串
+                    </label>
+                </div>
+                <br>
+                <input type="button" value="开始动画" class="btn btn-default" id="animate"></input>
+                <input type="button" value="下一步" class="btn btn-default" id="step"></input>
+                <input type="button" value="重制" class="btn btn-default" id="reset"></input>
+            </div>
+        </form>
+
+        <div class="result">
+            <div id="haystack" class="monospace"></div></br>
+            <div id="needle" class="monospace"></div>
+        </div>
+        <br><br><br><br>
+        <div class="row">
+            <div id="tables" class="col-sm-4"></div>
+            <div id="explanation" class="col-sm-4"></div>
+        </div>
+    </div>
+    <footer id="footer" class="bd-footer bg-light">
+        <p><a href="index.html">回到主页</a></p>
+    </footer>
+</body>
+
+</html>
