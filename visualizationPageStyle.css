@@ -45,11 +45,10 @@ body {
 
 }
 
-.VisualizationMainPage #header {
+#header {
 	background: #7952b3;
 	color: white;
 	padding: 0 10px 0 20px;
-	text-align: center;
 }
 
 .VisualizationMainPage #header A:visited {
