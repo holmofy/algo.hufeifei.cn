@@ -34,39 +34,14 @@ path { stroke: #000; fill: none; }
         <h1>BloomFilter</h1>
     </div>
     <div>
-<p>每个人都对BloomFilter赞不绝口。但它们到底是什么，它们有什么用？
-<h2>操作</h2>
-<p>基本的 bloom 过滤器支持两种操作：<strong>test</strong> 和 <strong>add</strong>.
-<p><strong>Test</strong> 用于检查给定元素是否在集合中。如果返回：
-<ul>
-  <li><em>false</em> 则该元素肯定不在集合中。
-  <li><em>true</em> 则该元素可能在集合中。误报率是绽放过滤器大小以及所用哈希函数的数量和独立性的函数的函数。
-</ul>
-<p><strong>Add</strong> 只是将一个元素添加到集合中。在不引入False Negative的情况下，不能去除。但可以扩展BloomFilter，以允许去除，例如CountingFilters
-<h2>应用</h2>
-<p>典型用例就是使用BloomFilter来对不存在的Key减少耗时的磁盘（或网络）查找。
-<p>如果元素不在BloomFilter中，那么我们肯定知道我们不需要执行耗时的查找。而如果它在BloomFilter中，我们执行查找，我们可以判定它会在一定比例内失败（误报率）。
-<h2>Bloomfilter.js</h2>
-<p>我用 JavaScript 编写了一个非常快速的BloomFilter实现，称为<a href="http://github.com/jasondavies/bloomfilter.js">bloomfilter.js</a>.  它使用非加密的 <a href="http://www.isthe.com/chongo/tech/comp/fnv/">Fowler–Noll–Vo hash函数</a>来提高速度.  我们可以使用非加密hash函数是因为我们只关心哈希值的均匀分布。
-<p>这个实现还使用了TypedArray, 因为这些数组在执行底层位运算时更快。
-<h2>交互式示例</h2>
-<p>下面您应该会看到由bloomfilter.js实现的BloomFilter可视化用例。
-<p>您可以通过在文本框中输入并单击“添加”来将任意数量的元素（Key）添加到过滤器中。然后使用第二个文本框查看元素是否可能存在或绝对不存在！
-<p><label for="key">Key:</label> <input type="text" id="key"> <button id="add" class="first last">添加</button>
-<div id="vis"><img src="full.png"><p>Sorry, you need an SVG-compatible browser to view the interactive version.</div>
-<h2>解释</h2>
-<p>布隆滤波器主要由长度为 m 的位数组组成，由中心那一列表示。
-<p>为了将一个key添加到绽放过滤器中，我们将其提供给 k 个不同的哈希函数，并在结果位置设置bit位。 在此示例中，我将 m 设置为 50，将 k 设置为 3。请注意，有时哈希函数会产生重叠位置，因此可以设置少于 k 个位置。
-<p>为了测试一个key是否在过滤器中，我们再次将其提供给 k 哈希函数。这一次，我们检查这些位置是否有任何bit位未设置。如果没有设置，则表示该物品肯定不在集合中。否则，它可能在集合中。
-<h2>注意</h2>
-<p>聪明的读者会注意到我只提到了Fowler–Noll–Vo一个哈希函数，但布隆过滤器需要多个。事实证明<a href="http://willwhim.wpengine.com/2011/09/03/producing-n-hash-functions-by-hashing-only-once/">你只需要提供两个hash函数就能生成k个hash函数</a>。事实上，我只是执行了一轮额外的 FNV 作为第二个哈希函数，这很好用。不幸的是，我不能在链接的帖子中使用 64 位技巧，因为 JavaScript 仅支持 32 位的位运算。
-<p>
-<h2>查看更多</h2>
-<ul>
-  <li><a href="https://www.jasondavies.com/bloomfilter/">原文链接</a></li>
-  <li><a href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a> 维基百科.
-  <li>László Kozma’s <a href="http://www.lkozma.net/cuckoo_hashing_visualization/">cuckoo hashing 可视化</a>.
-</ul>
+        <p><label for="key">Key:</label> <input type="text" id="key"> <button id="add" class="first last">添加</button>
+        <div id="vis"></div>
+    <h2>查看更多</h2>
+    <ul>
+      <li><a href="https://www.jasondavies.com/bloomfilter/">原文链接</a></li>
+      <li><a href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a> 维基百科.
+      <li>László Kozma’s <a href="http://www.lkozma.net/cuckoo_hashing_visualization/">cuckoo hashing 可视化</a>.
+    </ul>
 <script src="./BloomFilter/d3.min.js"></script>
 <script src="./BloomFilter/bloomfilter.js"></script>
 <script>
@@ -231,7 +206,7 @@ function locations(bloom, key) {
 }
 </script>
 
-    </div>
+</div>
 
     <footer class="bd-footer py-3 bg-light">
         <p><a href="index.html">回到主页</a></p>
