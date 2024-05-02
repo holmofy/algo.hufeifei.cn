@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Bloom Filters</title>
+<style>
+@import url(./style.css);
+@import url(./button.css);
+
+rect { stroke: #000; fill: #fff; shape-rendering: crispEdges; }
+rect.on { fill: #fc0; }
+rect.off { fill: #0cf; }
+path { stroke: #000; fill: none; }
+</style>
+
+<p class="breadcrumbs"><a href="http://www.jasondavies.com/">Jason Davies</a>
+<h1>Bloom Filters</h1>
+<p>每个人都对BloomFilter赞不绝口。但它们到底是什么，它们有什么用？
+<h2>操作</h2>
+<p>基本的 bloom 过滤器支持两种操作：<strong>test</strong> 和 <strong>add</strong>.
+<p><strong>Test</strong> 用于检查给定元素是否在集合中。如果返回：
+<ul>
+  <li><em>false</em> 则该元素肯定不在集合中。
+  <li><em>true</em> 则该元素可能在集合中。误报率是绽放过滤器大小以及所用哈希函数的数量和独立性的函数的函数。
+</ul>
+<p><strong>Add</strong> 只是将一个元素添加到集合中。在不引入False Negative的情况下，不能去除。但可以扩展BloomFilter，以允许去除，例如CountingFilters
+<h2>应用</h2>
+<p>典型用例就是使用BloomFilter来对不存在的Key减少耗时的磁盘（或网络）查找。
+<p>如果元素不在BloomFilter中，那么我们肯定知道我们不需要执行耗时的查找。而如果它在BloomFilter中，我们执行查找，我们可以判定它会在一定比例内失败（误报率）。
+<h2>Bloomfilter.js</h2>
+<p>我用 JavaScript 编写了一个非常快速的BloomFilter实现，称为<a href="http://github.com/jasondavies/bloomfilter.js">bloomfilter.js</a>.  它使用非加密的 <a href="http://www.isthe.com/chongo/tech/comp/fnv/">Fowler–Noll–Vo hash函数</a>来提高速度.  我们可以使用非加密hash函数是因为我们只关心哈希值的均匀分布。
+<p>这个实现还使用了TypedArray, 因为这些数组在执行底层位运算时更快。
+<h2>交互式示例</h2>
+<p>下面您应该会看到由bloomfilter.js实现的BloomFilter可视化用例。
+<p>您可以通过在文本框中输入并单击“添加”来将任意数量的元素（Key）添加到过滤器中。然后使用第二个文本框查看元素是否可能存在或绝对不存在！
+<p><label for="key">Key:</label> <input type="text" id="key"> <button id="add" class="first last">添加</button>
+<div id="vis"><img src="full.png"><p>Sorry, you need an SVG-compatible browser to view the interactive version.</div>
+<h2>解释</h2>
+<p>布隆滤波器主要由长度为 m 的位数组组成，由中心那一列表示。
+<p>为了将一个key添加到绽放过滤器中，我们将其提供给 k 个不同的哈希函数，并在结果位置设置bit位。 在此示例中，我将 m 设置为 50，将 k 设置为 3。请注意，有时哈希函数会产生重叠位置，因此可以设置少于 k 个位置。
+<p>为了测试一个key是否在过滤器中，我们再次将其提供给 k 哈希函数。这一次，我们检查这些位置是否有任何bit位未设置。如果没有设置，则表示该物品肯定不在集合中。否则，它可能在集合中。
+<h2>注意</h2>
+<p>聪明的读者会注意到我只提到了Fowler–Noll–Vo一个哈希函数，但布隆过滤器需要多个。事实证明<a href="http://willwhim.wpengine.com/2011/09/03/producing-n-hash-functions-by-hashing-only-once/">你只需要提供两个hash函数就能生成k个hash函数</a>。事实上，我只是执行了一轮额外的 FNV 作为第二个哈希函数，这很好用。不幸的是，我不能在链接的帖子中使用 64 位技巧，因为 JavaScript 仅支持 32 位的位运算。
+<p>
+<h2>查看更多</h2>
+<ul>
+  <li><a href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a> 维基百科.
+  <li>László Kozma’s <a href="http://www.lkozma.net/cuckoo_hashing_visualization/">cuckoo hashing 可视化</a>.
+</ul>
+<script src="./d3.min.js"></script>
+<script src="bloomfilter.js"></script>
+<script>
+var width = 750,
+    height = 600;
+
+var bloom = new BloomFilter(50, 3),
+    keys = [],
+    keySet = {},
+    colour = d3.scale.category20c();
+
+var bw = height / bloom.m,
+    dy = 20;
+
+var queryText = "";
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; })
+    .source(function(d) { return {y: 100, x: d.from * dy}; })
+    .target(function(d) { return {y: (width - bw) / 2, x: (d.to + .5) * bw}; });
+
+d3.select("#vis").selectAll("*").remove();
+var svg = d3.select("#vis").append("svg")
+    .attr("width", width - 100)
+    .attr("height", height + 20);
+
+svg.append("defs")
+  .append("marker")
+    .attr("id", "arrow")
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 10)
+    .attr("refY", 0)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 10)
+    .attr("orient", "auto")
+  .append("path")
+    .style("fill", "#000")
+    .attr("d", "M0,-5L10,0L0,5Z");
+
+var vis = svg.append("g")
+    .attr("transform", "translate(10,10)");
+
+var div = d3.select("#vis")
+    .style("position", "relative")
+  .append("div")
+    .style("position", "absolute")
+    .style("left", width - 100 + "px")
+    .style("top", "50%")
+    .style("margin-top", "-1.5em");
+div.append("input")
+    .attr("type", "text")
+    .on("keyup", function() {
+      queryText = this.value;
+      update();
+    });
+var result = div.append("span");
+
+update();
+
+var keyInput = d3.select("#key")
+    .on("keyup", function() {
+      if (d3.event.keyCode === 13) add();
+    });
+d3.select("#add").on("click", add);
+
+function add() {
+  var key = keyInput.property("value");
+  if (!(key in keySet)) {
+    keySet[key] = 1;
+    bloom.add(key);
+    keys.push({key: key, value: locations(bloom, key)});
+    update();
+  }
+  keyInput.property("value", "");
+}
+
+function update() {
+  var offLocations = locations(bloom, queryText);
+
+  var rect = vis.selectAll("rect")
+      .data(buckets(bloom, offLocations));
+  rect.enter().append("rect")
+      .attr("width", bw)
+      .attr("height", bw)
+      .attr("x", (width - bw) / 2)
+      .attr("y", function(d, i) { return i * bw; });
+  rect.exit().remove();
+  rect.attr("class", function(d) { return d === 1 ? "on" : d === -1 ? "off" : null; });
+
+  var key = vis.selectAll("text.key")
+      .data(keys);
+  key.enter().append("text")
+      .attr("class", "key")
+      .attr("x", 100)
+      .attr("text-anchor", "end")
+      .attr("dx", "-.3em")
+      .attr("dy", ".2em")
+      .text(function(d) { return d.key; });
+  key.exit().remove();
+  key.attr("y", function(d, i) { return height / 2 + (i - keys.length / 2) * dy; });
+
+  var link = vis.selectAll("path.location")
+      .data(links(bloom, keys));
+  link.enter().append("path")
+      .attr("class", "location")
+      .attr("marker-end", "url(#arrow)")
+      .attr("transform", "translate(0," + height / 2 + ")");
+  link.exit().remove();
+  link.attr("d", diagonal);
+
+  var link = vis.selectAll("path.query")
+      .data(links(bloom, [{key: queryText, value: offLocations}]));
+  link.enter().append("path")
+      .attr("class", "query")
+      .attr("marker-end", "url(#arrow)")
+      .attr("transform", "translate(" + width + "," + height / 2 + ")scale(-1,1)");
+  link.exit().remove();
+  link.attr("d", diagonal);
+  result.text(bloom.test(queryText) ? " 可能存在" : " 绝对不在这里面");
+}
+
+function links(bloom, list) {
+  var a = [];
+  list.forEach(function(d, i) {
+    var b = {};
+    d.value.forEach(function(target) {
+      b[target] = 1;
+    });
+    for (var target in b) {
+      a.push({from: +i - list.length / 2, to: +target - bloom.m / 2});
+    }
+  });
+  return a;
+}
+
+function buckets(bloom, off) {
+  var d = bloom.buckets,
+      a = [],
+      m = bloom.m,
+      k,
+      x,
+      n;
+  for (var i = 0, j = 0; i < m; i += 32, j++) {
+    var x = d[j];
+    for (var k = 0, n = Math.min(m - i, 32); k < n; ++k) {
+      a.push((x >> k) & 1);
+    }
+  }
+  off.forEach(function(i) {
+    if (a[i] === 0) a[i] = -1;
+  });
+  return a;
+}
+
+function locations(bloom, key) {
+  var l = bloom.locations(key),
+      k = bloom.k,
+      i = -1,
+      a = [];
+  for (var i = 0; i < k; ++i) a[i] = l[i];
+  return a;
+}
+</script>
