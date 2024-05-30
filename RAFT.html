@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Raft</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link href="RAFT/styles/bootstrap/bootstrap-3.0.2.css" rel="stylesheet">
+	<link href="RAFT/styles/tsld/tsld.css" rel="stylesheet">
+	<script src="RAFT/scripts/jquery/jquery-2.0.3.min.js"></script>
+	<script src="RAFT/scripts/bootstrap/bootstrap-3.0.2.min.js"></script>
+	<script src="RAFT/scripts/d3/d3-3.3.9.min.js"></script>
+	<script src="RAFT/scripts/playback/playback.js"></script>
+	<script src="RAFT/scripts/tsld/tsld.js"></script>
+	<script>
+		var require = { urlArgs: "t=" + (new Date()).getTime() };
+	</script>
+	<script data-main="RAFT/scripts/index.js" src="RAFT/scripts/require/require-2.1.9.js"></script>
+	<style>
+		h2,
+		h3 {
+			font-weight: 300;
+		}
+
+		h2 {
+			font-size: 28px;
+		}
+
+		h3 {
+			font-size: 26px;
+		}
+
+		h2>em,
+		h3>em {
+			font-style: normal;
+			font-weight: 500;
+		}
+	</style>
+</head>
+
+<body>
+	<header id="header">
+		<nav class="navbar navbar-default" role="navigation" style="background-color: #7952b3;">
+			<div class="navbar-header">
+				<div class="dropdown">
+					<button type="button" class="navbar-toggle" data-toggle="dropdown">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					</ul>
+				</div>
+				<span class="navbar-brand" style="color:white">
+					Raft协议
+					<a style="color:white" href="/">返回首页</a>
+				</span>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container">
+		<div id="chart">
+		</div>
+	</div>
+</body>
+
+</html>
